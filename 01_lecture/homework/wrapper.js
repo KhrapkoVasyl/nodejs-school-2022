@@ -30,10 +30,10 @@ const pow = (x, n) => (n === 1 ? x : x * pow(x, n - 1));
 const mAdd = wrapper(add);
 const mPow = wrapper(pow);
 
-mAdd(5, 13); // 18
-mAdd(5, 13); // 18 from cache
-mAdd(2, 23); // 25
-mAdd(2, 23); // 25 from cache
+console.log(mAdd(5, 13)); // 18
+console.log(mAdd(5, 13)); // 18 from cache
+console.log(mAdd(2, 23)); // 25
+console.log(mAdd(2, 23)); // 25 from cache
 
-mPow(3, 15); // 14348907
-mPow(3, 15); // 14348907 from cache
+console.log(mPow(3, 15)); // 14348907
+console.log(mPow(3, 15)); // 14348907 from cache

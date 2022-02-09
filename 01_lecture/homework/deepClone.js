@@ -40,8 +40,8 @@ const testObj = {
 
 const newObj = deepClone(testObj);
 
-console.log(newObj === testObj); //false
-console.log(newObj.ex1 === testObj.ex1); //false
-console.log(newObj.ex2 === testObj.ex2); //false
-console.log(newObj.ex2.ex21 === testObj.ex2.ex21); //false
+console.log(newObj === testObj); // false
+console.log(newObj.ex1 === testObj.ex1); // false
+console.log(newObj.ex2 === testObj.ex2); // false
+console.log(newObj.ex2.ex21 === testObj.ex2.ex21); // false
 console.log(newObj.ex2.ex21[2] === testObj.ex2.ex21[2]); // false
