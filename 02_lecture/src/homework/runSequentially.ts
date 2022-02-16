@@ -3,7 +3,7 @@
 // The result of invocation must be an array of callback results.
 // All types must apply automatically (Template function).
 
-interface ResultInreface<T> {
+interface ResultIntreface<T> {
   item: T;
   index: number;
 }
@@ -11,8 +11,8 @@ interface ResultInreface<T> {
 async function runSequentially<Type>(
   array: Type[],
   callback: Function
-): Promise<ResultInreface<Type>[]> {
-  const callbackResults: ResultInreface<Type>[] = [];
+): Promise<ResultIntreface<Type>[]> {
+  const callbackResults: ResultIntreface<Type>[] = [];
   for (let i = 0; i < array.length; i++) {
     const item = array[i];
     // console.log(`Start with item: ${item}; index: ${i}`); // for sequential execution test
