@@ -3,38 +3,32 @@
 // The result of invocation must be an array of callback results.
 // All types must apply automatically (Template function).
 
-interface ResultIntreface<T> {
-  item: T;
-  index: number;
-}
+const runSequentially = async <TArrayElement, TResult>(
+  array: TArrayElement[],
+  sequenceCallback: (elements: TArrayElement, index: number) => Promise<TResult>
+): Promise<TResult[]> => {
+  return array.reduce(async (promise, current, index) => {
+    const acc = await promise;
 
-async function runSequentially<Type>(
-  array: Type[],
-  callback: Function
-): Promise<ResultIntreface<Type>[]> {
-  const callbackResults: ResultIntreface<Type>[] = [];
-  for (let i = 0; i < array.length; i++) {
-    const item = array[i];
-    // console.log(`Start with item: ${item}; index: ${i}`); // for sequential execution test
-    const result = await callback(item, i);
-    // console.log(`End with item: ${item}; index: ${i}`); // for sequential execution test
-    callbackResults.push(result);
-  }
-  return callbackResults;
-}
+    const result = await sequenceCallback(current, index);
+
+    return [...acc, result];
+  }, Promise.resolve([]) as Promise<TResult[]>);
+};
 
 // test
 
 (async () => {
   const array: Array<string> = ['one', 'two', 'three', 'four', 'five'];
 
-  const results = await runSequentially<string>(
-    array,
-    (item: string, index: number) =>
-      Promise.resolve({
-        item,
-        index,
-      })
+  const results = await runSequentially<
+    string,
+    { item: string; index: number }
+  >(array, (item: string, index: number) =>
+    Promise.resolve({
+      item,
+      index,
+    })
   );
 
   console.log(results); /* [ { item: 'one', index: 0 },

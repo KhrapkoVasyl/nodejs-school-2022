@@ -2,20 +2,16 @@
 // Passed array must be mutated. All removed elements must be returned as array.
 // All types must apply automatically (Template function).
 
-function arrayMutateRemove<Type>(
+const arrayMutateRemove = <Type>(
   array: Type[],
-  predicateFunc: Function
-): Type[] {
-  const removedElements: Type[] = [];
-  for (let i = 0; i < array.length; i++) {
-    if (predicateFunc(array[i])) {
-      const removedEl: Type[] = array.splice(i, 1);
-      removedElements.push(removedEl[0]);
-      i--;
-    }
-  }
-  return removedElements;
-}
+  predicateFunc: (element: Type) => boolean
+): Type[] => {
+  return array.reduce(
+    (acc, currentElement, index) =>
+      predicateFunc(currentElement) ? [...acc, array.splice(index, 1)[0]] : acc,
+    [] as Type[]
+  );
+};
 
 // tests
 
