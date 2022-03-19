@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserI } from './interfaces/user.interface';
 import { v4 } from 'uuid';
@@ -9,6 +9,18 @@ export class UsersService {
 
   getAllUsers(): UserI[] {
     return this.users;
+  }
+
+  getUserById(id: string): UserI {
+    const user = this.users.find((el: UserI) => el.id === id);
+
+    if (!user)
+      throw new HttpException(
+        'User with the specified id was not found',
+        HttpStatus.NOT_FOUND,
+      );
+
+    return user;
   }
 
   createUser(dto: CreateUserDto) {
