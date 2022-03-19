@@ -6,8 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { JwtUsersGuard } from './jwt-users.guard';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -32,9 +35,11 @@ export class UsersController {
     return { user };
   }
 
+  @UseGuards(JwtUsersGuard)
   @Patch(':id')
-  updateUserById(@Param('id') id: string, @Body() updateDto) {
-    const user = this.usersService.updateUser(id, updateDto);
+  updateUserById(@Param('id') id: string, @Req() req) {
+    const { user: expectedUser, body: updateDto } = req;
+    const user = this.usersService.updateUser(id, expectedUser.id, updateDto);
     return { user };
   }
 

@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserI } from './interfaces/user.interface';
 import { v4 } from 'uuid';
@@ -38,7 +43,10 @@ export class UsersService {
     return { ...createdUser, token };
   }
 
-  updateUser(id: string, dto: CreateUserDto): UserI {
+  updateUser(id: string, expectedUserId: string, dto: CreateUserDto): UserI {
+    if (id !== expectedUserId)
+      throw new UnauthorizedException({ message: 'Incorrect token' });
+
     const user = this.getUserById(id);
     user.name = dto.name;
     return user;
