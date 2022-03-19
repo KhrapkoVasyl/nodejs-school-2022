@@ -39,4 +39,17 @@ export class UsersService {
     user.name = dto.name;
     return user;
   }
+
+  deleteUser(id: string): void {
+    const index = this.users.findIndex((el: UserI) => el.id === id);
+
+    if (index === -1)
+      throw new HttpException(
+        'User with the specified id was not found',
+        HttpStatus.NOT_FOUND,
+      );
+
+    this.users.splice(index, 1);
+    return;
+  }
 }
