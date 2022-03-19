@@ -33,4 +33,10 @@ export class UsersService {
 
     return createdUser;
   }
+
+  updateUser(id: string, dto: CreateUserDto): UserI {
+    const user = this.getUserById(id);
+    user.name = dto.name;
+    return user;
+  }
 }
