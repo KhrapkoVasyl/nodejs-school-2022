@@ -2,10 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserI } from './interfaces/user.interface';
 import { v4 } from 'uuid';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   private readonly users: UserI[] = [];
+
+  constructor(private jwtService: JwtService) {}
 
   getAllUsers(): UserI[] {
     return this.users;
@@ -31,7 +34,8 @@ export class UsersService {
 
     this.users.push(createdUser);
 
-    return createdUser;
+    const token = this.generateToken(createdUser);
+    return { ...createdUser, token };
   }
 
   updateUser(id: string, dto: CreateUserDto): UserI {
@@ -51,5 +55,11 @@ export class UsersService {
 
     this.users.splice(index, 1);
     return;
+  }
+
+  generateToken(user: UserI) {
+    const payload = { ...user };
+    const token = this.jwtService.sign(payload);
+    return token;
   }
 }
