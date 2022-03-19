@@ -52,7 +52,10 @@ export class UsersService {
     return user;
   }
 
-  deleteUser(id: string): void {
+  deleteUser(id: string, expectedUserId: string): void {
+    if (id !== expectedUserId)
+      throw new UnauthorizedException({ message: 'Incorrect token' });
+
     const index = this.users.findIndex((el: UserI) => el.id === id);
 
     if (index === -1)

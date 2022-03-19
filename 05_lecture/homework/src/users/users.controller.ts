@@ -43,8 +43,10 @@ export class UsersController {
     return { user };
   }
 
+  @UseGuards(JwtUsersGuard)
   @Delete(':id')
-  deletUserById(@Param('id') id: string): void {
-    return this.usersService.deleteUser(id);
+  deletUserById(@Param('id') id: string, @Req() req): void {
+    const expectedUser = req.user;
+    return this.usersService.deleteUser(id, expectedUser.id);
   }
 }
