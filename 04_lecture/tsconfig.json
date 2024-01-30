@@ -6,11 +6,9 @@
     "moduleResolution": "node",
     "removeComments": true,
     "sourceMap": true,
-    "outDir": "dist",
-    "rootDir": "examples"
+    "outDir": "dist"
+    // "rootDir": "examples"
   },
   "lib": ["es6"],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
